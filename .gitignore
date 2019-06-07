@@ -1,0 +1,13 @@
+.vscode
+*.pyc
+*.pth
+__pycache__
+checkpoints
+result
+runs
+.ssh*
+.rsyncignore
+bak
+*.zip
+hsi_denoising_complex.py
+hsi_denoising_gauss.py

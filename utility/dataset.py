@@ -428,7 +428,7 @@ class ImageTransformDataset(Dataset):
 
 if __name__ == '__main__':
     """Mat dataset test"""
-    # dataset = MatDataFromFolder('/media/kaixuan/DATA/Papers/Code/Matlab/ECCV2018/ECCVResult/Indian/Indian_pines/')
+    # dataset = MatDataFromFolder('/media/kaixuan/DATA/Papers/Code/Matlab/ECCV2018/Result/Indian/Indian_pines/')
     # mat = dataset[0]    
     # hsi = mat['R_hsi'].transpose((2,0,1))
     # Visualize3D(hsi)

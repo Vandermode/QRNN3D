@@ -215,7 +215,7 @@ if __name__ == '__main__':
     # visualize('/media/kaixuan/DATA/Papers/Code/Data/PIRM18/sample/img_1', 'true_hr', load=loadmat, preprocess=preprocess)
 
     # visualize('/media/kaixuan/DATA/Papers/Code/Matlab/ITSReg/code of ITSReg MSI denoising/data/real/new/Indian/Indian_pines.mat', 'hsi', load=loadmat, preprocess=preprocess)
-    # visualize('/media/kaixuan/DATA/Papers/Code/Matlab/ECCV2018/ECCVResult/Indian/Indian_pines/QRNN3D-f.mat', 'R_hsi', load=loadmat, preprocess=preprocess)
-    # visualize('/media/kaixuan/DATA/Papers/Code/Matlab/ECCV2018/ECCVData/Pavia/PaviaU', 'input', load=loadmat, preprocess=preprocess)
+    # visualize('/media/kaixuan/DATA/Papers/Code/Matlab/ECCV2018/Result/Indian/Indian_pines/QRNN3D-f.mat', 'R_hsi', load=loadmat, preprocess=preprocess)
+    # visualize('/media/kaixuan/DATA/Papers/Code/Matlab/ECCV2018/Data/Pavia/PaviaU', 'input', load=loadmat, preprocess=preprocess)
     
     pass

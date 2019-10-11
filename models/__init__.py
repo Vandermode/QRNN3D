@@ -11,56 +11,8 @@ def qrnn3d():
     net.bandwise = False
     return net
 
-def qrnn3d_6():
-    net = QRNNREDC3D(1, 16, 6, [1,3], has_ad=True)
-    net.use_2dconv = False
-    net.bandwise = False
-    return net
-
-def qrnn3d_4():
-    net = QRNNREDC3D(1, 16, 4, [1,3], has_ad=True)
-    net.use_2dconv = False
-    net.bandwise = False
-    return net
-
-def qrnn3d_c12():
-    net = QRNNREDC3D(1, 12, 5, [1,3], has_ad=True)
-    net.use_2dconv = False
-    net.bandwise = False
-    return net
-
-def qrnn3d_c20():
-    net = QRNNREDC3D(1, 20, 5, [1,3], has_ad=True)
-    net.use_2dconv = False
-    net.bandwise = False
-    return net
-
-def qrnn3d_relu():
-    net = QRNNREDC3D(1, 16, 5, [1,3], has_ad=True, act='relu')
-    net.use_2dconv = False
-    net.bandwise = False
-    return net
-
-def qrnn3d_plain():
-    net = QRNNREDC3D(1, 16, 5, [], has_ad=True, plain=True)
-    net.use_2dconv = False
-    net.bandwise = False
-    return net
-
-def qrnn3d_res():
-    net = ResQRNN3D(1, 16, 5)
-    net.use_2dconv = False
-    net.bandwise = False
-    return net
-
 def qrnn2d():
     net = QRNNREDC3D(1, 16, 5, [1,3], has_ad=True, is_2d=True)
-    net.use_2dconv = False
-    net.bandwise = False
-    return net
-
-def wqrnn2d():
-    net = QRNNREDC3D(1, 32, 5, [1,3], has_ad=True, is_2d=True)
     net.use_2dconv = False
     net.bandwise = False
     return net

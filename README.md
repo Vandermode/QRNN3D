@@ -63,7 +63,15 @@ Download ICVL hyperspectral image database from [here](http://icvl.cs.bgu.ac.il/
 ```python hsi_denoising_complex.py -a qrnn3d -p complex --dataroot (your own dataroot) -r -rp checkpoints/qrnn3d/gauss/model_epoch_50_118454.pth --no-ropt```
 
 ## Citation
-If you find this work useful for your research, please cite: (TODO)
+If you find this work useful for your research, please cite: 
+```
+@article{wei2020QRNN3D,
+  title={3D Quasi-Recurrent Neural Network for Hyperspectral Image Denoising},
+  author={Wei, Kaixuan and Fu, Ying and Huang, Hua},
+  journal={arXiv preprint arXiv:2003.04547},
+  year={2020}
+}
+```
 
 ## Contact
 Please contact me if there is any question (Kaixuan Wei kaixuan_wei@bit.edu.cn)  

@@ -46,7 +46,7 @@ Download ICVL hyperspectral image database from [here](http://icvl.cs.bgu.ac.il/
 
 ### 2. Testing with pretrained models
 
-* Download our pretrained models from [OneDrive]() and move them to ```checkpoints/qrnn3d/gauss/``` and ```checkpoints/qrnn3d/complex/``` respectively.
+* Download our pretrained models from [OneDrive](https://1drv.ms/u/s!AqddfvhavTRiijWftKWgLfUgdSaD?e=nHGjIk) and move them to ```checkpoints/qrnn3d/gauss/``` and ```checkpoints/qrnn3d/complex/``` respectively.
 
 * [Blind Gaussian noise removal]:   
 ```python hsi_test.py -a qrnn3d -p gauss -r -rp checkpoints/qrnn3d/gauss/model_epoch_50_118454.pth```

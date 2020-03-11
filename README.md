@@ -1,6 +1,6 @@
 # QRNN3D
 
-The implementation of "3D Quasi-Recurrent Neural Network for Hyperspectral Image Denoising"
+The implementation of TNNLS 2020 paper ["3D Quasi-Recurrent Neural Network for Hyperspectral Image Denoising"](https://arxiv.org/abs/2003.04547)
 
 
 ## Highlights

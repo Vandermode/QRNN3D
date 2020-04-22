@@ -66,10 +66,11 @@ Download ICVL hyperspectral image database from [here](http://icvl.cs.bgu.ac.il/
 If you find this work useful for your research, please cite: 
 ```
 @article{wei2020QRNN3D,
-  title={3D Quasi-Recurrent Neural Network for Hyperspectral Image Denoising},
+  title={3-D Quasi-Recurrent Neural Network for Hyperspectral Image Denoising},
   author={Wei, Kaixuan and Fu, Ying and Huang, Hua},
-  journal={arXiv preprint arXiv:2003.04547},
-  year={2020}
+  journal={IEEE Transactions on Neural Networks and Learning Systems},
+  year={2020},
+  publisher={IEEE}
 }
 ```
 

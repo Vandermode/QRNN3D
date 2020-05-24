@@ -31,22 +31,34 @@ if __name__ == '__main__':
     """Setup Engine"""
     engine = Engine(opt)
 
-    mat_dataset = MatDataFromFolder('data/Satellite')
+    datadir = '' # your input data dir
+    basefolder = '/media/kaixuan/DATA/Papers/Code/Matlab/ECCV2018/ECCVData'
+    # datadir = os.path.join(basefolder, 'icvl_512_50')
+    # datadir = os.path.join(basefolder, 'icvl_512_blind')
+    # datadir = os.path.join(basefolder, 'icvl_512_noniid')
+    datadir = os.path.join(basefolder, 'icvl_512_mixture')
+    
+    mat_dataset = MatDataFromFolder(datadir, size=None)
+
+    # mat_dataset.filenames = [
+    #         os.path.join(datadir, 'Lehavim_0910-1627.mat') 
+    #     ]
     
     mat_transform = Compose([
-        LoadMatKey(key='img'), # for testing
-        lambda x: x[:,:220,:256][None],
-        minmax_normalize,
+        LoadMatHSI(input_key='input', gt_key='gt', transform=lambda x:x[:,:,:][None]), # for validation
+        # LoadMatKey(key='hsi'), # for testing
+        # lambda x: x[None]
     ])
 
     mat_dataset = TransformDataset(mat_dataset, mat_transform)
-
     mat_loader = DataLoader(
                     mat_dataset,
                     batch_size=1, shuffle=False,
                     num_workers=1, pin_memory=cuda
                 )
     
-    # print(engine.net)
+    resdir = None # your result dir
     
-    engine.test_real(mat_loader, savedir=None)
+    # res_arr, input_arr = engine.test_develop(mat_loader, savedir=resdir, verbose=True)
+    # print(res_arr.mean(axis=0))
+    engine.validate(mat_loader, '')

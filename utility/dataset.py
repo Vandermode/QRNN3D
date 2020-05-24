@@ -273,7 +273,7 @@ class LoadMatKey(object):
     
     def __call__(self, mat):
         item = mat[self.key][:].transpose((2,0,1))
-        return item
+        return item.astype(np.float32)
 
 
 # Define Datasets
@@ -297,13 +297,19 @@ class DatasetFromFolder(Dataset):
 
 class MatDataFromFolder(Dataset):
     """Wrap mat data from folder"""
-    def __init__(self, data_dir, load=loadmat, suffix='mat', size=None):
+    def __init__(self, data_dir, load=loadmat, suffix='mat', fns=None, size=None):
         super(MatDataFromFolder, self).__init__()
-        self.filenames = [
-            os.path.join(data_dir, fn) 
-            for fn in os.listdir(data_dir)
-            if fn.endswith(suffix)
-        ]
+        if fns is not None:
+            self.filenames = [
+                os.path.join(data_dir, fn) for fn in fns
+            ]
+        else:
+            self.filenames = [
+                os.path.join(data_dir, fn) 
+                for fn in os.listdir(data_dir)
+                if fn.endswith(suffix)
+            ]
+
         self.load = load
 
         if size and size <= len(self.filenames):
@@ -428,7 +434,7 @@ class ImageTransformDataset(Dataset):
 
 if __name__ == '__main__':
     """Mat dataset test"""
-    # dataset = MatDataFromFolder('/media/kaixuan/DATA/Papers/Code/Matlab/ECCV2018/Result/Indian/Indian_pines/')
+    # dataset = MatDataFromFolder('/media/kaixuan/DATA/Papers/Code/Matlab/ECCV2018/ECCVResult/Indian/Indian_pines/')
     # mat = dataset[0]    
     # hsi = mat['R_hsi'].transpose((2,0,1))
     # Visualize3D(hsi)

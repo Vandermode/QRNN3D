@@ -27,6 +27,9 @@ class MultipleLoss(nn.Module):
             total_loss += loss(predict, target) * weight
         return total_loss
 
+    def extra_repr(self):
+        return 'weight={}'.format(self.weight)
+
 
 def train_options(parser):
     def _parse_str_args(args):
@@ -50,7 +53,7 @@ def train_options(parser):
     parser.add_argument('--wd', type=float, default=0,
                         help='weight decay. default=0')
     parser.add_argument('--loss', type=str, default='l2',
-                        help='which loss to choose.', choices=['l1', 'l2', 'smooth_l1', 'ssim'])
+                        help='which loss to choose.', choices=['l1', 'l2', 'smooth_l1', 'ssim', 'l2_ssim'])
     parser.add_argument('--init', type=str, default='kn',
                         help='which init scheme to choose.', choices=['kn', 'ku', 'xn', 'xu', 'edsr'])
     parser.add_argument('--no-cuda', action='store_true', help='disable cuda?')
@@ -64,6 +67,8 @@ def train_options(parser):
                         help='resume from checkpoint')
     parser.add_argument('--no-ropt', '-nro', action='store_true',
                             help='not resume optimizer')          
+    parser.add_argument('--chop', action='store_true',
+                            help='forward chop')                                      
     parser.add_argument('--resumePath', '-rp', type=str,
                         default=None, help='checkpoint to use.')
     parser.add_argument('--dataroot', '-d', type=str,
@@ -148,7 +153,7 @@ class Engine(object):
         if self.opt.loss == 'ssim':
             self.criterion = SSIMLoss(data_range=1, channel=31)
         if self.opt.loss == 'l2_ssim':
-            self.criterion = MultipleLoss([nn.MSELoss(), SSIMLoss(data_range=1, channel=31)], weight=[1, 0.1])
+            self.criterion = MultipleLoss([nn.MSELoss(), SSIMLoss(data_range=1, channel=31)], weight=[1, 2.5e-3])
         
         print(self.criterion)
 
@@ -173,6 +178,51 @@ class Engine(object):
             print('==> Building model..')
             print(self.net)
 
+    def forward(self, inputs):        
+        if self.opt.chop:            
+            output = self.forward_chop(inputs)
+        else:
+            output = self.net(inputs)
+        
+        return output
+
+    def forward_chop(self, x, base=16):        
+        n, c, b, h, w = x.size()
+        h_half, w_half = h // 2, w // 2
+        
+        shave_h = np.ceil(h_half / base) * base - h_half
+        shave_w = np.ceil(w_half / base) * base - w_half
+
+        shave_h = shave_h if shave_h >= 10 else shave_h + base
+        shave_w = shave_w if shave_w >= 10 else shave_w + base
+
+        h_size, w_size = int(h_half + shave_h), int(w_half + shave_w)        
+        
+        inputs = [
+            x[..., 0:h_size, 0:w_size],
+            x[..., 0:h_size, (w - w_size):w],
+            x[..., (h - h_size):h, 0:w_size],
+            x[..., (h - h_size):h, (w - w_size):w]
+        ]
+
+        outputs = [self.net(input_i) for input_i in inputs]
+
+        output = torch.zeros_like(x)
+        output_w = torch.zeros_like(x)
+        
+        output[..., 0:h_half, 0:w_half] += outputs[0][..., 0:h_half, 0:w_half]
+        output_w[..., 0:h_half, 0:w_half] += 1
+        output[..., 0:h_half, w_half:w] += outputs[1][..., 0:h_half, (w_size - w + w_half):w_size]
+        output_w[..., 0:h_half, w_half:w] += 1
+        output[..., h_half:h, 0:w_half] += outputs[2][..., (h_size - h + h_half):h_size, 0:w_half]
+        output_w[..., h_half:h, 0:w_half] += 1
+        output[..., h_half:h, w_half:w] += outputs[3][..., (h_size - h + h_half):h_size, (w_size - w + w_half):w_size]
+        output_w[..., h_half:h, w_half:w] += 1
+        
+        output /= output_w
+
+        return output
+
     def __step(self, train, inputs, targets):        
         if train:
             self.optimizer.zero_grad()
@@ -190,6 +240,14 @@ class Engine(object):
             outputs = torch.cat(O, dim=1)
         else:
             outputs = self.net(inputs)
+            # outputs = torch.clamp(self.net(inputs), 0, 1)
+            # loss = self.criterion(outputs, targets)
+            
+            # if outputs.ndimension() == 5:
+            #     loss = self.criterion(outputs[:,0,...], torch.clamp(targets[:,0,...], 0, 1))
+            # else:
+            #     loss = self.criterion(outputs, torch.clamp(targets, 0, 1))
+            
             loss = self.criterion(outputs, targets)
             
             if train:
@@ -328,6 +386,10 @@ class Engine(object):
                 res_arr[batch_idx, :] = MSIQA(outputs, targets)
                 input_arr[batch_idx, :] = MSIQA(inputs, targets)
 
+                """Visualization"""
+                # Visualize3D(inputs.data[0].cpu().numpy())
+                # Visualize3D(outputs.data[0].cpu().numpy())
+
                 psnr = res_arr[batch_idx, 0]
                 ssim = res_arr[batch_idx, 1]
                 if verbose:
@@ -344,6 +406,37 @@ class Engine(object):
                         savemat(outpath, {'R_hsi': torch2numpy(outputs)})
                         
         return res_arr, input_arr
+
+    def test_real(self, test_loader, savedir=None):
+        """Warning: this code is not compatible with bandwise flag"""
+        from scipy.io import savemat
+        from os.path import basename
+        self.net.eval()
+        dataset = test_loader.dataset.dataset
+
+        with torch.no_grad():
+            for batch_idx, inputs in enumerate(test_loader):
+                if not self.opt.no_cuda:
+                    inputs = inputs.cuda()           
+
+                outputs = self.forward(inputs)
+
+                """Visualization"""                
+                input_np = inputs[0].cpu().numpy()
+                output_np = outputs[0].cpu().numpy()
+
+                display = np.concatenate([input_np, output_np], axis=-1)
+                
+                Visualize3D(display)
+                # Visualize3D(outputs[0].cpu().numpy())
+                # Visualize3D((outputs-inputs).data[0].cpu().numpy())
+                
+                if savedir:
+                    R_hsi = outputs.data[0].cpu().numpy()[0,...].transpose((1,2,0))     
+                    savepath = join(savedir, basename(dataset.filenames[batch_idx]).split('.')[0], self.opt.arch + '.mat')
+                    savemat(savepath, {'R_hsi': R_hsi})
+        
+        return outputs
 
     def get_net(self):
         if len(self.opt.gpu_ids) > 1:

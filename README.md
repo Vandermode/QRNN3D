@@ -53,8 +53,10 @@ Download ICVL hyperspectral image database from [here](http://icvl.cs.bgu.ac.il/
 ```python hsi_test.py -a qrnn3d -p gauss -r -rp checkpoints/qrnn3d/gauss/model_epoch_50_118454.pth```
 
 * [Mixture noise removal]:  
-```python hsi_eval.py -a qrnn3d -p complex -r -rp checkpoints/qrnn3d/complex/model_epoch_100_159904.pth```
+```python hsi_eval.py -a qrnn3d -p complex -r -rp checkpoints/qrnn3d/complex/model_epoch_100_159904.pth```  
 ```python hsi_test.py -a qrnn3d -p complex -r -rp checkpoints/qrnn3d/complex/model_epoch_100_159904.pth```
+
+Note ```hsi_eval.py``` is for evaluation purpose (w. ground truth provided), while ```hsi_test``` is for testing purpose (w.o. GT)
 
 ### 3. Training from scratch
 

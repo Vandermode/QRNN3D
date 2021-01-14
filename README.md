@@ -28,6 +28,8 @@ on ICVL dataset in both Gaussian and complex noise cases, as shown below:
 
 Download ICVL hyperspectral image database from [here](http://icvl.cs.bgu.ac.il/hyperspectral/) (we only need ```.mat``` version)
 
+* The train-test split can be found in ```ICVL_train.txt``` and ```ICVL_test_*.txt```. (Note we split the 101 testing data into two parts for Gaussian and complex denoising respectively.)
+
 #### Training dataset
 
 *Note cafe (via conda install) and lmdb are required to execute the following instructions.*

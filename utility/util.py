@@ -27,15 +27,15 @@ def Data2Volume(data, ksizes, strides):
     TotalPatNum = 1
     for i in range(len(ksizes)):
         TotalPatNum = TotalPatNum * PatNum(dshape[i], ksizes[i], strides[i])
-    
+        
     V = np.zeros([int(TotalPatNum)]+ksizes); # create D+1 dimension volume
 
     args = [range(kz) for kz in ksizes]
-    for s in product(*args):
+    for s in product(*args):        
         s1 = (slice(None),) + s
-        s2 = tuple([slice(key, -ksizes[i]+key+1 or None, strides[i]) for i, key in enumerate(s)])
-        V[s1] = np.reshape(data[s2],-1,1)
-        
+        s2 = tuple([slice(key, -ksizes[i]+key+1 or None, strides[i]) for i, key in enumerate(s)])     
+        V[s1] = np.reshape(data[s2], (-1,))
+
     return V
 
 def crop_center(img,cropx,cropy):

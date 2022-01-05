@@ -68,7 +68,7 @@ You can also use ```hsi_eval.py``` to evaluate quantitative HSI denoising perfor
 
 ## Citation
 If you find this work useful for your research, please cite: 
-```
+```bibtex
 @article{wei2020QRNN3D,
   title={3-D Quasi-Recurrent Neural Network for Hyperspectral Image Denoising},
   author={Wei, Kaixuan and Fu, Ying and Huang, Hua},
@@ -79,4 +79,4 @@ If you find this work useful for your research, please cite:
 ```
 
 ## Contact
-Please contact me if there is any question (Kaixuan Wei kaixuan_wei@bit.edu.cn)  
+Please contact me if there is any question (kxwei@princeton.edu ~~kaixuan_wei@bit.edu.cn~~)  

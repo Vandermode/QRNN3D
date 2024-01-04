@@ -96,12 +96,14 @@ and follow up works
     doi = {https://doi.org/10.1016/j.neucom.2022.01.057},
     author = {Zeqiang Lai and Kaixuan Wei and Ying Fu},
 }
+
 @inproceedings{lai2023hsdt,
   author = {Lai, Zeqiang and Chenggang, Yan and Fu, Ying},
   title = {Hybrid Spectral Denoising Transformer with Guided Attention},
   booktitle={Proceedings of the IEEE International Conference on Computer Vision},
   year = {2023},
 }
+
 @article{lai2023mixed,
   title={Mixed Attention Network for Hyperspectral Image Denoising},
   author={Lai, Zeqiang and Fu, Ying},

@@ -2,6 +2,12 @@
 
 The implementation of TNNLS 2020 paper ["3D Quasi-Recurrent Neural Network for Hyperspectral Image Denoising"](https://arxiv.org/abs/2003.04547)
 
+> 🌟 See also the follow up works of QRNN3D:
+> - [DPHSIR](https://github.com/Zeqiang-Lai/DPHSIR) - Plug-and-play QRNN3D that solve any HSI restoration task in one model.
+> - [HSDT](https://github.com/Zeqiang-Lai/HSDT) - State-of-the-art HSI denoising transformer that follows up 3D paradigam of QRNN3D.
+> - [MAN](https://github.com/Zeqiang-Lai/MAN) - Improved QRNN3D with significant performance improvement and less parameters.
+>
+> 📉 Performance: QRNN3D < DPHSIR < MAN < HSDT
 
 ## Highlights
 
@@ -75,6 +81,32 @@ If you find this work useful for your research, please cite:
   journal={IEEE Transactions on Neural Networks and Learning Systems},
   year={2020},
   publisher={IEEE}
+}
+```
+
+and follow up works
+```bibtex
+@article{lai2022dphsir,
+    title = {Deep plug-and-play prior for hyperspectral image restoration},
+    journal = {Neurocomputing},
+    volume = {481},
+    pages = {281-293},
+    year = {2022},
+    issn = {0925-2312},
+    doi = {https://doi.org/10.1016/j.neucom.2022.01.057},
+    author = {Zeqiang Lai and Kaixuan Wei and Ying Fu},
+}
+@inproceedings{lai2023hsdt,
+  author = {Lai, Zeqiang and Chenggang, Yan and Fu, Ying},
+  title = {Hybrid Spectral Denoising Transformer with Guided Attention},
+  booktitle={Proceedings of the IEEE International Conference on Computer Vision},
+  year = {2023},
+}
+@article{lai2023mixed,
+  title={Mixed Attention Network for Hyperspectral Image Denoising},
+  author={Lai, Zeqiang and Fu, Ying},
+  journal={arXiv preprint arXiv:2301.11525},
+  year={2023}
 }
 ```
 

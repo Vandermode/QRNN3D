@@ -113,4 +113,4 @@ and follow up works
 ```
 
 ## Contact
-Please contact me if there is any question (kxwei@princeton.edu ~~kaixuan_wei@bit.edu.cn~~)  
+Please contact me if there is any question (kaixuan.wei at kaust.edu.sa)  
